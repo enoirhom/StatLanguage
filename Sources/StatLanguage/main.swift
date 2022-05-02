@@ -3,7 +3,7 @@ import Antlr4
 
 let input = """
 device gasSensor;
-bool start;
+boolean start;
 
 setup() {
   number x = 4;
@@ -17,7 +17,7 @@ update(): number {
 }
 
 test(number x) {
-  bool start;
+  boolean start;
 }
 
 """

@@ -40,7 +40,7 @@ open class StatParser: Parser {
 		nil, "'('", "')'", "'{'", "'}'", "','", "'const'", "';'", "'.'", "':'", 
 		"'return'", "'+'", "'-'", "'*'", "'/'", "'%'", "'='", "'=='", "'!='", 
 		"'<'", "'>'", "'<='", "'>='", "'!'", "'true'", "'false'", "'&&'", "'||'", 
-		"'bool'", "'number'", "'device'", "'if'", "'else'"
+		"'boolean'", "'number'", "'device'", "'if'", "'else'"
 	]
 	private static let _SYMBOLIC_NAMES: [String?] = [
 		nil, "LPAR", "RPAR", "LBRACES", "RBRACES", "COMMA", "CONST", "SEMICOLON", 

@@ -87,7 +87,7 @@ AND: '&&';
 OR: '||';
 
 // Types
-BOOLEANTYPE: 'bool';
+BOOLEANTYPE: 'boolean';
 NUMBERTYPE: 'number';
 DEVICETYPE: 'device';
 
