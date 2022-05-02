@@ -1,7 +1,7 @@
 
 import Antlr4
 
-class StatFirstVisitor: StatBaseVisitor<StatType> {
+class FunctionDefinitionPhase: StatBaseVisitor<StatType> {
   var currentScope: Scope = BaseScope()
   let scopes: ParseTreeProperty = ParseTreeProperty<Scope>()
   
@@ -21,6 +21,8 @@ class StatFirstVisitor: StatBaseVisitor<StatType> {
     let function = Function(name: name, parent: currentScope, type: getReturnType(ctx), parameters: getParametersType(ctx))
     do {
       try currentScope.define(symbol: function)
+      print("function \(name) defined in global scope.")
+      scopes.put(ctx, function)
     } catch {
       print("Name '\(function.name)' already exists in scope.")
     }

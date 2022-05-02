@@ -16,6 +16,10 @@ update(): number {
   start = false;
 }
 
+test(number x) {
+  bool start;
+}
+
 """
 
 let inputStream = ANTLRInputStream(input)
@@ -25,5 +29,8 @@ let tokenStream = CommonTokenStream(lexer)
 let parser = try StatParser(tokenStream)
 let programContext = try parser.program()
 
-let visitor = StatFirstVisitor()
-let _ = visitor.visit(programContext)
+let firstVisitor = FunctionDefinitionPhase()
+let _ = firstVisitor.visit(programContext)
+
+let secondVisitor = VariableDefinitionPhase(scopes: firstVisitor.scopes)
+let _ = secondVisitor.visit(programContext)
