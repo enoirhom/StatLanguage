@@ -6,7 +6,7 @@ device gasSensor;
 boolean start;
 
 setup() {
-  number x = 4;
+  number x = -4;
   setDevice(gasSensor, 1);
   start = false;
 }
@@ -14,12 +14,20 @@ setup() {
 update(): number {
   setDevice(gasSensor, 1);
   start = false;
+  coucou = 23;
+  number coucou;
 }
 
 test(number x) {
   boolean start;
 }
 
+setDevice(device d, number n) {
+  boolean check = (n > 7);
+  if (check && start) {
+    gasSensor;
+  }
+}
 """
 
 let inputStream = ANTLRInputStream(input)

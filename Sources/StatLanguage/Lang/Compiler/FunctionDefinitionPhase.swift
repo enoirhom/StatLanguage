@@ -2,8 +2,8 @@
 import Antlr4
 
 class FunctionDefinitionPhase: StatBaseVisitor<StatType> {
-  var currentScope: Scope = BaseScope()
   let scopes: ParseTreeProperty = ParseTreeProperty<Scope>()
+  var currentScope: Scope = BaseScope()
   
   override func visitProgram(_ ctx: StatParser.ProgramContext) -> StatType? {
     scopes.put(ctx, currentScope)
@@ -70,6 +70,6 @@ class FunctionDefinitionPhase: StatBaseVisitor<StatType> {
       return .device
     }
     
-      return nil
+    return nil
   }
 }
