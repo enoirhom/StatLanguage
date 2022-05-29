@@ -7,6 +7,7 @@ boolean start;
 
 setup() {
   number x = -4;
+  x = -x;
   setDevice(gasSensor, 1);
   start = false;
 }
@@ -14,8 +15,8 @@ setup() {
 update(): number {
   setDevice(gasSensor, 1);
   start = false;
-  coucou = 23;
   number coucou;
+  coucou = true;
 }
 
 test(number x) {

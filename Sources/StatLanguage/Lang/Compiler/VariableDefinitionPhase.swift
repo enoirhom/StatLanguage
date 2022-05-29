@@ -25,6 +25,17 @@ class VariableDefinitionPhase: StatBaseVisitor<StatType> {
     return nil
   }
   
+  override func visitVarDecl(_ ctx: StatParser.VarDeclContext) -> StatType? {
+    let varType = visitVarDef(ctx.varDef()!)
+    guard let exprD = ctx.exprD(), let varType = varType else { return nil }
+    let exprDType = visit(exprD)
+    
+    if varType != exprDType {
+      print("type mismatch")
+    }
+    return varType
+  }
+  
   override func visitVarDef(_ ctx: StatParser.VarDefContext) -> StatType? {
     guard let typeCtx = ctx.type(),
           let type = visitType(typeCtx),
@@ -40,13 +51,12 @@ class VariableDefinitionPhase: StatBaseVisitor<StatType> {
       print("Name '\(name)' already exists in scope.")
     }
     
-    
     return type
   }
   
   override func visitType(_ ctx: StatParser.TypeContext) -> StatType? {
     if let _ = ctx.BOOLEANTYPE() {
-      return .bool
+      return .boolean
     }
     if let _ = ctx.NUMBERTYPE() {
       return .number
@@ -81,6 +91,10 @@ class VariableDefinitionPhase: StatBaseVisitor<StatType> {
     return result
   }
   
+  override func visitParens(_ ctx: StatParser.ParensContext) -> StatType? {
+    return visitChildren(ctx)
+  }
+  
   override func visitExprG(_ ctx: StatParser.ExprGContext) -> StatType? {
     guard let id = ctx.ID()?.getText() else { return nil }
     return resolveSymbol(identifier: id)?.type
@@ -91,17 +105,47 @@ class VariableDefinitionPhase: StatBaseVisitor<StatType> {
   }
   
   override func visitUnaryMinusExpr(_ ctx: StatParser.UnaryMinusExprContext) -> StatType? {
-    return visit(ctx)
+    guard let exprDType = visitChildren(ctx) else { return .number }
+    
+    if exprDType != .number {
+      print("Cannot invert expression of type \(exprDType.rawValue)")
+    }
+    
+    return exprDType
   }
   
   override func visitTimesDivideExpr(_ ctx: StatParser.TimesDivideExprContext) -> StatType? {
-    visitChildren(ctx)
+    let _ = visitChildren(ctx)
     return .number
   }
   
   override func visitPlusMinusExpr(_ ctx: StatParser.PlusMinusExprContext) -> StatType? {
-    visitChildren(ctx)
+    let _ = visitChildren(ctx)
     return .number
+  }
+  
+  override func visitTrueExpr(_ ctx: StatParser.TrueExprContext) -> StatType? {
+    return .boolean
+  }
+  
+  override func visitFalseExpr(_ ctx: StatParser.FalseExprContext) -> StatType? {
+    return .boolean
+  }
+  
+  override func visitEqualExpr(_ ctx: StatParser.EqualExprContext) -> StatType? {
+    return .boolean
+  }
+  
+  override func visitRelationExpr(_ ctx: StatParser.RelationExprContext) -> StatType? {
+    return .boolean
+  }
+  
+  override func visitAndOrExpr(_ ctx: StatParser.AndOrExprContext) -> StatType? {
+    return .boolean
+  }
+  
+  override func visitNotExpr(_ ctx: StatParser.NotExprContext) -> StatType? {
+    return .boolean
   }
   
   private func resolveSymbol(identifier: String) -> Symbol? {

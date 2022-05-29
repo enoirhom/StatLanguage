@@ -61,7 +61,7 @@ class FunctionDefinitionPhase: StatBaseVisitor<StatType> {
   
   override func visitType(_ ctx: StatParser.TypeContext) -> StatType? {
     if let _ = ctx.BOOLEANTYPE() {
-      return .bool
+      return .boolean
     }
     if let _ = ctx.NUMBERTYPE() {
       return .number
